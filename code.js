@@ -5,7 +5,8 @@ let playerChoice;
 const choice=document.querySelector(".choice");
 const result=document.querySelector(".result")
 const score=document.querySelector(".score")
-const currentResult=document.querySelector(".currentResult")
+const currentResult=document.querySelector(".currentScores")
+const currentWin=document.querySelector(".currentWin")
 //buttons init
 const rock=document.querySelector(".rock");
 const paper=document.querySelector(".paper");
@@ -28,6 +29,9 @@ if(randm===3){
 }
 //////////////////////////////////////////////
 let compChoice;
+let compScore=0;
+let playerScore=0;
+let tournament=0;
 //////////////////////////////////////////////
 function compChoiceString(){  //retrns string value of given choice of comp
     if(computerSelection==1){
@@ -63,31 +67,71 @@ scissors.addEventListener('click', ()=>{
 //////////////////////////////////////////////
 
 function playRound(computerSelection,playerInt,compChoice,playerChoice){
-    console.log((compChoice,playerChoice))
         if(computerSelection==playerInt){
             choice.textContent=("Computer chose: "+compChoice+" You chose: "+playerChoice)
-            currentResult.textContent=("It's a Draw -_-")
+            compScore=compScore;
+            playerScore=playerScore;
+            currentWin.textContent="It's a draw!"
+            return(roundScoreCalc(playerScore,compScore));
         }
         else if(computerSelection>playerInt && computerSelection-playerInt !=2){
             choice.textContent=("Computer chose: "+compChoice+" You chose: "+playerChoice)
-            currentResult.textContent=("You Lost :(")
+            compScore=compScore+1;
+            playerScore=playerScore;
+            currentWin.textContent="You Lost :("
+            return(roundScoreCalc(playerScore,compScore));
         }
         else if(computerSelection<playerInt && playerInt-computerSelection !=2){
             choice.textContent=("Computer chose: "+compChoice+" You chose: "+playerChoice)
-            currentResult.textContent=("You Win :)")
-        }else if(computerSelection-playerInt==2){
+            compScore=compScore;
+            playerScore=playerScore+1;
+            currentWin.textContent="You Won :)"
+            return(roundScoreCalc(playerScore,compScore));
+        }
+        else if(computerSelection-playerInt==2){
             choice.textContent=("Computer chose: "+compChoice+" You chose: "+playerChoice)
-            currentResult.textContent=("You Win :)")
+            compScore=compScore;
+            playerScore=playerScore+1;
+            currentWin.textContent="You Won :)"
+            return(roundScoreCalc(playerScore,compScore));
         }
         else if(playerInt-computerSelection==2){
             choice.textContent=("Computer chose: "+compChoice+" You chose: "+playerChoice)
-            currentResult.textContent=("You Lost :(")
+            compScore=compScore+1;
+            playerScore=playerScore;
+            currentWin.textContent="You Lost :("
+            return(roundScoreCalc(playerScore,compScore));
         }
         else{
             console.log("error")
         }
     }
-   
+
+function roundScoreCalc(playerScore,compScore){
+           if(playerScore+compScore==5){
+               if(compScore>playerScore){
+                   tournament=0
+                   return(displayScore(playerScore,compScore,tournament))
+               }
+               else if(playerScore>compScore){
+                   tournament=1
+                   return(displayScore(playerScore,compScore,tournament))
+               }
+           }
+           return(displayScore(playerScore,compScore,tournament))
+    }
+
+
+function displayScore(playerScore,compScore,tournament){
+    if(tournament=1){
+          playerScore=0;
+          compScore=0;
+        return(playerScore,compScore)
+        }
+    score.textContent="Computer :"+compScore+"Player: "+playerScore
+
+
+}
 
 
 

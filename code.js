@@ -5,7 +5,6 @@ let playerChoice;
 const choice=document.querySelector(".choice");
 const result=document.querySelector(".result")
 const score=document.querySelector(".score")
-const currentResult=document.querySelector(".currentScores")
 const currentWin=document.querySelector(".currentWin")
 //buttons init
 const rock=document.querySelector(".rock");
@@ -47,7 +46,7 @@ function compChoiceString(){  //retrns string value of given choice of comp
 }
 //////////////////////////////////////////////
 //button function
-rock.addEventListener('click', ()=>{
+rock.addEventListener('click', (playerScore,compScore)=>{
     playerInt=1;
     computerSelection=computerPLay();
     return(playRound(computerSelection,playerInt,compChoiceString(computerSelection),playerChoice="rock"))
@@ -107,31 +106,48 @@ function playRound(computerSelection,playerInt,compChoice,playerChoice){
         }
     }
 
+    function displayScore(playerScore,compScore,tournament){
+        console.log(playerScore)
+        if(tournament==1){
+              playerScore=0;
+              compScore=0;
+            result.textContent="Computer Wins This Round!"
+            score.textContent="Computer :"+compScore+"                         Player: "+playerScore
+            return(playerScore,compScore)
+            }
+            if(tournament==2){
+                playerScore=0;
+                compScore=0;
+              result.textContent="You Win This Round!"
+              score.textContent="Computer :"+compScore+"Player: "+playerScore
+              return(playerScore,compScore)
+              }
+
+        else {
+        score.textContent="Computer :"+compScore+"Player: "+playerScore
+        }
+    
+    }
+
 function roundScoreCalc(playerScore,compScore){
            if(playerScore+compScore==5){
                if(compScore>playerScore){
-                   tournament=0
-                   return(displayScore(playerScore,compScore,tournament))
-               }
-               else if(playerScore>compScore){
                    tournament=1
                    return(displayScore(playerScore,compScore,tournament))
                }
+               if(playerScore>compScore){
+                   tournament=2
+                   return(displayScore(playerScore,compScore,tournament))
+               }
            }
-           return(displayScore(playerScore,compScore,tournament))
+           else{
+               return(displayScore(playerScore,compScore,tournament))
+           }
+           console.log(compScore)
     }
 
 
-function displayScore(playerScore,compScore,tournament){
-    if(tournament=1){
-          playerScore=0;
-          compScore=0;
-        return(playerScore,compScore)
-        }
-    score.textContent="Computer :"+compScore+"Player: "+playerScore
 
-
-}
 
 
 
